@@ -14,6 +14,13 @@ public class Agente {
     private double saldo;
     private Operacion operacionCompra;
     private Operacion operacionVenta;
+
+    public Agente(int ID, String nome, double saldo) {
+        this.ID = ID;
+        this.nome = nome;
+        this.saldo = saldo;
+    }
+    
     
     
     public boolean nuevaOperacionCompra(String tipo, double limite, double cantidad){
@@ -112,7 +119,11 @@ public class Agente {
 
     @Override
     public String toString() {
-        return "Agente{" + "ID=" + ID + ", nome=" + nome + ", saldo=" + saldo + ", operacionCompra=" + operacionCompra + ", operacionVenta=" + operacionVenta + '}';
+        return "Agente{" + 
+                "ID=" + ID + 
+                ", nome='" + nome + '\'' + 
+                ", saldo=" + saldo + 
+                '}';
     }
 
     @Override

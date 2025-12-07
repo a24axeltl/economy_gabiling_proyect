@@ -12,8 +12,8 @@ public class Operacion implements Runnable{
     private String tipo;
     private double limite;
     private double cantidad;
-    private Thread hiloEjecutor;
-    private Agente refAgente;
+    private transient Thread hiloEjecutor;
+    private transient Agente refAgente;
 
     public Operacion(String tipo, double limite, double cantidad, Agente refAgente) {
         setTipo(tipo);
@@ -77,5 +77,10 @@ public class Operacion implements Runnable{
      */
     public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
+    }
+
+    @Override
+    public String toString() {
+        return "Operacion{" + "tipo=" + tipo + ", limite=" + limite + ", cantidad=" + cantidad + '}';
     }
 }
