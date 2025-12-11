@@ -4,9 +4,8 @@
 
 package com.mycompany.psphilosbroker;
 
-import com.google.gson.Gson;
-import java.io.FileWriter;
-import java.io.IOException;
+import controller.FrontController;
+import view.MainJFrame;
 
 /**
  *
@@ -16,19 +15,19 @@ public class PspHilosBroker {
 
     public static void main(String[] args) {
         // PERSISTENCIA DE USUARIOS/AGENTES Y OPERACIONES
-        Agente ag1 = new Agente(1,"ag1",1200.00);
-        ag1.nuevaOperacionCompra("compra", 10.5, 3.0);
         
         // Guardar Agente...
+        Agente ag1 = new Agente(1,"ag1",1200.00);
+        ag1.nuevaOperacionCompra("compra", 10.5, 3.0);
         DataSaveUtilies.guardarAgente(ag1);
         
         //Cargar Agente...
-        Agente loadAg = DataSaveUtilies.cargarAgente(1);
+        /*Agente loadAg = DataSaveUtilies.cargarAgente(1);
         if(loadAg != null){
             System.out.println(loadAg + loadAg.getOperacionCompra().toString());
         } else {
             System.out.println("Agente no encontrado");
-        }
+        }*/
         
         // RECUPERAR EL PRECIO Y LOS VALORES ANTERIORES.
             
@@ -45,5 +44,10 @@ public class PspHilosBroker {
             
         // CREAR OPERACIONES
         
+        /////////////////////////////////////////////////////////////////////////////
+        
+        MainJFrame frame = new MainJFrame();
+        FrontController fc = new FrontController(frame);
+        frame.setVisible(true);
     }
 }

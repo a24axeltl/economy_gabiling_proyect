@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  *
@@ -19,7 +18,7 @@ public class DataSaveUtilies {
     private static Gson gson = new Gson();
     
     public static void guardarAgente(Agente ag){
-        try (FileWriter fw = new FileWriter("save/ag1.json")){
+        try (FileWriter fw = new FileWriter("saveAgs/ag_" + ag.getID() + ".json")){
             gson.toJson(ag, fw);
         } catch (IOException ex) {
             System.getLogger(PspHilosBroker.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
