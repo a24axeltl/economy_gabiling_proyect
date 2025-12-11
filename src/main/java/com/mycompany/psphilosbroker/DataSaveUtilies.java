@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,6 +17,7 @@ import java.io.IOException;
  */
 public class DataSaveUtilies {
     private static Gson gson = new Gson();
+    private static File[] saveFiles = new File("saveAgs/").listFiles();
     
     public static void guardarAgente(Agente ag){
         try (FileWriter fw = new FileWriter("saveAgs/ag_" + ag.getID() + ".json")){
@@ -26,7 +28,6 @@ public class DataSaveUtilies {
     }
     
     public static Agente cargarAgente(int id){
-        File[] saveFiles = new File("save/").listFiles();
         for(File saveFile : saveFiles){
             try (FileReader fr = new FileReader(saveFile)) {
                 Agente saveAg = gson.fromJson(fr, Agente.class);
@@ -38,5 +39,18 @@ public class DataSaveUtilies {
             }
         }
         return null;
+    }
+    
+    public static ArrayList<Agente> cargarAgentes(){
+        ArrayList<Agente> listaAgente = new ArrayList<>();
+        for(File saveFile : saveFiles){
+            try (FileReader fr = new FileReader(saveFile)) {
+                Agente saveAg = gson.fromJson(fr, Agente.class);
+                listaAgente.add(saveAg);
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
+        return listaAgente;
     }
 }

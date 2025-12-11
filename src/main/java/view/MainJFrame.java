@@ -4,6 +4,7 @@
  */
 package view;
 
+import com.mycompany.psphilosbroker.Agente;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
 
@@ -12,15 +13,13 @@ import javax.swing.DefaultListModel;
  * @author dam2_alu13@inf.ald
  */
 public class MainJFrame extends javax.swing.JFrame {
-    DefaultListModel<String> demoList = new DefaultListModel<>();
+    DefaultListModel<String> agentList = new DefaultListModel<>();
     
     /**
      * Creates new form MainJFrame
      */
     public MainJFrame() {
         initComponents();
-        
-        
     }
 
     /**
@@ -63,27 +62,22 @@ public class MainJFrame extends javax.swing.JFrame {
 
         deleteAgentButton.setText("Eliminar");
 
-        agentsList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane2.setViewportView(agentsList);
 
         javax.swing.GroupLayout gestorAgentePanelLayout = new javax.swing.GroupLayout(gestorAgentePanel);
         gestorAgentePanel.setLayout(gestorAgentePanelLayout);
         gestorAgentePanelLayout.setHorizontalGroup(
             gestorAgentePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gestorAgentePanelLayout.createSequentialGroup()
+            .addGroup(gestorAgentePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(gestorAgentePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(gestorAgentePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, gestorAgentePanelLayout.createSequentialGroup()
-                        .addGap(0, 305, Short.MAX_VALUE)
+                    .addGroup(gestorAgentePanelLayout.createSequentialGroup()
+                        .addGap(0, 311, Short.MAX_VALUE)
                         .addComponent(deleteAgentButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(createAgentButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, gestorAgentePanelLayout.createSequentialGroup()
+                    .addGroup(gestorAgentePanelLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -144,12 +138,12 @@ public class MainJFrame extends javax.swing.JFrame {
     }
     
     public void delItemList(int index){
-        this.demoList.remove(index);
+        this.agentList.remove(index);
     }
     
-    public void addAgent(String agente){
-        demoList.addElement(agente);
-        agentsList.setModel(demoList);
+    public void addAgent(String dataAgene){
+        agentList.addElement(dataAgene);
+        agentsList.setModel(agentList);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

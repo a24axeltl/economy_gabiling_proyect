@@ -4,6 +4,8 @@
  */
 package controller;
 
+import com.mycompany.psphilosbroker.Agente;
+import com.mycompany.psphilosbroker.DataSaveUtilies;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Scanner;
@@ -20,6 +22,14 @@ public class FrontController {
         this.view = view;
         this.view.setCreateAgentActionListener(this.getCreateAgentButtonActionListener());
         this.view.setDeleteAgentActionListener(this.getDeleteAgentButtonActionListener());
+        this.loadSaveAgents();
+    }
+    
+    private void loadSaveAgents(){
+        for(Agente agente : DataSaveUtilies.cargarAgentes()){
+            String dataAgente = agente.getID() + "|" + agente.getNome();
+            view.addAgent(dataAgente);
+        }
     }
     
     private ActionListener getCreateAgentButtonActionListener(){
