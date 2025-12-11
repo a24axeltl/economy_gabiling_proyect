@@ -1,8 +1,12 @@
 view\MainJFrame.class
+view\CreateAgenteDialog.class
 com\mycompany\psphilosbroker\Agente.class
 controller\FrontController$2.class
 controller\FrontController$1.class
 com\mycompany\psphilosbroker\DataSaveUtilies.class
+controller\CreateAgenteController$1.class
 com\mycompany\psphilosbroker\PspHilosBroker.class
+controller\CreateAgenteController.class
 controller\FrontController.class
+controller\CreateAgenteController$2.class
 com\mycompany\psphilosbroker\Operacion.class

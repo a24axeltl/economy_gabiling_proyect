@@ -5,6 +5,7 @@
 package view;
 
 import com.mycompany.psphilosbroker.Agente;
+import com.mycompany.psphilosbroker.DataSaveUtilies;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
 
@@ -20,6 +21,7 @@ public class MainJFrame extends javax.swing.JFrame {
      */
     public MainJFrame() {
         initComponents();
+        agentsJList.setModel(agentList);
     }
 
     /**
@@ -38,7 +40,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         deleteAgentButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        agentsList = new javax.swing.JList<>();
+        agentsJList = new javax.swing.JList<>();
         gestorOperacionPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -58,11 +60,12 @@ public class MainJFrame extends javax.swing.JFrame {
 
         createAgentButton.setText("Crear");
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Agentes:");
 
         deleteAgentButton.setText("Eliminar");
 
-        jScrollPane2.setViewportView(agentsList);
+        jScrollPane2.setViewportView(agentsJList);
 
         javax.swing.GroupLayout gestorAgentePanelLayout = new javax.swing.GroupLayout(gestorAgentePanel);
         gestorAgentePanel.setLayout(gestorAgentePanelLayout);
@@ -133,8 +136,24 @@ public class MainJFrame extends javax.swing.JFrame {
         this.deleteAgentButton.addActionListener(al);
     }
     
+    public void loadSaveAgents(){
+        this.delAllList();
+        for(Agente agente : DataSaveUtilies.cargarAgentes()){
+            String dataAgente = agente.getID() + "|" + agente.getNome();
+            this.addAgent(dataAgente);
+        }
+    }
+    
     public int getIndexItemList(){
-        return this.agentsList.getSelectedIndex();
+        return this.agentsJList.getSelectedIndex();
+    }
+    
+    public String getItemList(int index){
+        return this.agentList.getElementAt(index);
+    }
+    
+    public void delAllList(){
+        this.agentList.removeAllElements();
     }
     
     public void delItemList(int index){
@@ -143,11 +162,10 @@ public class MainJFrame extends javax.swing.JFrame {
     
     public void addAgent(String dataAgene){
         agentList.addElement(dataAgene);
-        agentsList.setModel(agentList);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> agentsList;
+    private javax.swing.JList<String> agentsJList;
     private javax.swing.JPanel bolsaPanel;
     private javax.swing.JButton createAgentButton;
     private javax.swing.JButton deleteAgentButton;

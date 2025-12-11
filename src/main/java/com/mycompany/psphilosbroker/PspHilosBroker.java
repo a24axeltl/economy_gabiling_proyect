@@ -16,19 +16,6 @@ public class PspHilosBroker {
     public static void main(String[] args) {
         // PERSISTENCIA DE USUARIOS/AGENTES Y OPERACIONES
         
-        // Guardar Agente...
-        Agente ag1 = new Agente(1,"ag1",1200.00);
-        ag1.nuevaOperacionCompra("compra", 10.5, 3.0);
-        DataSaveUtilies.guardarAgente(ag1);
-        
-        //Cargar Agente...
-        /*Agente loadAg = DataSaveUtilies.cargarAgente(1);
-        if(loadAg != null){
-            System.out.println(loadAg + loadAg.getOperacionCompra().toString());
-        } else {
-            System.out.println("Agente no encontrado");
-        }*/
-        
         // RECUPERAR EL PRECIO Y LOS VALORES ANTERIORES.
             
         // PINTAR PRECIO/TIEMPO (Posible uso de una GUI)

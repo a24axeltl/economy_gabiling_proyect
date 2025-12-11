@@ -8,7 +8,10 @@ import com.mycompany.psphilosbroker.Agente;
 import com.mycompany.psphilosbroker.DataSaveUtilies;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
+import view.CreateAgenteDialog;
 import view.MainJFrame;
 
 /**
@@ -22,23 +25,16 @@ public class FrontController {
         this.view = view;
         this.view.setCreateAgentActionListener(this.getCreateAgentButtonActionListener());
         this.view.setDeleteAgentActionListener(this.getDeleteAgentButtonActionListener());
-        this.loadSaveAgents();
-    }
-    
-    private void loadSaveAgents(){
-        for(Agente agente : DataSaveUtilies.cargarAgentes()){
-            String dataAgente = agente.getID() + "|" + agente.getNome();
-            view.addAgent(dataAgente);
-        }
+        this.view.loadSaveAgents();
     }
     
     private ActionListener getCreateAgentButtonActionListener(){
         ActionListener al = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                Scanner scanner = new Scanner(System.in);
-                String agente = scanner.nextLine();
-                view.addAgent(agente);
+                CreateAgenteDialog caD = new CreateAgenteDialog(view, true);
+                CreateAgenteController caC = new CreateAgenteController(caD,view);
+                caD.setVisible(true);
             }
         };
         return al;
@@ -48,7 +44,14 @@ public class FrontController {
         ActionListener al = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                String itemList = view.getItemList(view.getIndexItemList());
+                String[] dataAgent = itemList.split("\\|");
+                int id = Integer.parseInt(dataAgent[0]);
+                
+                DataSaveUtilies.eliminarAgente(id);
                 view.delItemList(view.getIndexItemList());
+                
+                JOptionPane.showMessageDialog(view, "Agente Eliminado!", "Info", JOptionPane.INFORMATION_MESSAGE);
             }
         };
         return al;

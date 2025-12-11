@@ -27,6 +27,15 @@ public class DataSaveUtilies {
         }
     }
     
+    public static void eliminarAgente(int id){
+        String nameFile = "ag_" + id + ".json";
+        for(File file : saveFiles){
+            if(file.getName().equals(nameFile)){
+                file.delete();
+            }
+        }
+    }
+    
     public static Agente cargarAgente(int id){
         for(File saveFile : saveFiles){
             try (FileReader fr = new FileReader(saveFile)) {
