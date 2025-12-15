@@ -4,7 +4,7 @@
  */
 package controller;
 
-import com.mycompany.psphilosbroker.Agente;
+import model.Agente;
 import com.mycompany.psphilosbroker.DataSaveUtilies;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

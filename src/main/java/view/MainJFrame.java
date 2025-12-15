@@ -4,7 +4,7 @@
  */
 package view;
 
-import com.mycompany.psphilosbroker.Agente;
+import model.Agente;
 import com.mycompany.psphilosbroker.DataSaveUtilies;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;

@@ -4,6 +4,7 @@
  */
 package com.mycompany.psphilosbroker;
 
+import model.Agente;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileReader;
