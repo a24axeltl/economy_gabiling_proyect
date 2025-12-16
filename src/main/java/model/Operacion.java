@@ -66,9 +66,23 @@ public class Operacion {
     public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
     }
+    
+    /**
+     * @return the refAgente
+     */
+    public Agente getRefAgente() {
+        return refAgente;
+    }
+
+    /**
+     * @param refAgente the refAgente to set
+     */
+    public void setRefAgente(Agente refAgente) {
+        this.refAgente = refAgente;
+    }
 
     @Override
     public String toString() {
-        return "Operacion{" + "tipo=" + tipo + ", limite=" + limite + ", cantidad=" + cantidad + '}';
+        return "Operacion{" + "tipo=" + tipo + ", limite=" + limite + ", cantidad=" + cantidad + ", refAgente=" + refAgente + '}';
     }
 }

@@ -5,6 +5,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import model.Operacion;
 
@@ -21,13 +22,15 @@ public class EstadoMercado {
         this.precioActual = precioActual;
     }
     
-    public void anhadirOperacion(Operacion op){
+    public void anhadirOperacion(Operacion op){ //syncronization pendiente al ser monitor
         switch (op.getTipo()) {
             case "compra":
                 operacionesCompra.add(op);
+                operacionesCompra.sort(Comparator.comparing(Operacion::getLimite).reversed());
                 break;
             case "venta":
                 operacionesVenta.add(op);
+                operacionesVenta.sort(Comparator.comparing(Operacion::getLimite));
                 break;
             default:
                 System.err.println("Tipo invalido o no identificado");

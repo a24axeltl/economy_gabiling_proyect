@@ -25,30 +25,35 @@ public class Agente {
     
     
     
-    public boolean nuevaOperacionCompra(String tipo, double limite, double cantidad, EstadoMercado broker){
-        switch (tipo) {
-            case "compra":
-                if(operacionCompra == null){
-                    operacionCompra = new Operacion(tipo, limite, cantidad, this);
-                    broker.anhadirOperacion(operacionCompra);
-                } else {
-                    System.out.println("Ya existe una operacion de compra para el agente " + getNome());
+    public boolean nuevaOperacion(String tipo, double limite, double cantidad, EstadoMercado broker){
+        if(saldo < limite * cantidad){
+            return false;
+        } else {
+            switch (tipo) {
+                case "compra":
+                    if (operacionCompra == null) {
+                        operacionCompra = new Operacion(tipo, limite, cantidad, this);
+                        broker.anhadirOperacion(operacionCompra);
+                    } else {
+                        System.out.println("Ya existe una operacion de compra para el agente " + getNome());
+                        return false;
+                    }
+                    break;
+                case "venta":
+                    if (operacionVenta == null) {
+                        operacionVenta = new Operacion(tipo, limite, cantidad, this);
+                        broker.anhadirOperacion(operacionVenta);
+                    } else {
+                        System.out.println("Ya existe una operacion de venta para el agente " + getNome());
+                        return false;
+                    }
+                    break;
+                default:
                     return false;
-                }
-                break;
-            case "venta":
-                if(operacionVenta == null){
-                    operacionVenta = new Operacion(tipo, limite, cantidad, this);
-                    broker.anhadirOperacion(operacionVenta);
-                } else {
-                    System.out.println("Ya existe una operacion de venta para el agente " + getNome());
-                    return false;
-                }
-                break;
-            default: return false;
+            }
+
+            return true;
         }
-        
-        return true;
     }
     
     /**
