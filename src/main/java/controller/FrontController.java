@@ -4,12 +4,9 @@
  */
 package controller;
 
-import model.Agente;
 import com.mycompany.psphilosbroker.DataSaveUtilies;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
-import java.util.Scanner;
 import javax.swing.JOptionPane;
 import view.CreateAgenteDialog;
 import view.MainJFrame;
@@ -44,14 +41,19 @@ public class FrontController {
         ActionListener al = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                String itemList = view.getItemList(view.getIndexItemList());
-                String[] dataAgent = itemList.split("\\|");
-                int id = Integer.parseInt(dataAgent[0]);
-                
-                DataSaveUtilies.eliminarAgente(id);
-                view.delItemList(view.getIndexItemList());
-                
-                JOptionPane.showMessageDialog(view, "Agente Eliminado!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                int selectIndex = view.getIndexItemList();
+                if(selectIndex == -1){
+                    JOptionPane.showMessageDialog(view, "Seleccione un agente para proceder", "Aviso de Eliminar", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    String itemList = view.getItemList(selectIndex);
+                    String[] dataAgent = itemList.split("\\|");
+                    int id = Integer.parseInt(dataAgent[0]);
+
+                    DataSaveUtilies.eliminarAgente(id);
+                    view.delItemList(view.getIndexItemList());
+
+                    JOptionPane.showMessageDialog(view, "Agente Eliminado!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         };
         return al;

@@ -41,22 +41,26 @@ public class CreateAgenteController {
         ActionListener al = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int id = (int) (Math.random() * 2147483647);
+                int id = 0;
                 for(Agente ag : DataSaveUtilies.cargarAgentes()){
-                    while(ag.getID() == id){
-                        id = (int) (Math.random() * 2147483647);
+                    if(ag.getID() >= id){
+                        id = ag.getID() + 1;
                     }
                 }
                 String nombre = view.getTextNombreAgenteTextField();
-                double saldo = Double.parseDouble(view.getTextSaldoAgenteTextField());
+                double saldo = view.getDoubleSaldoAgenteTextField();
                 
-                Agente newAgente = new Agente(id, nombre, saldo);
-                DataSaveUtilies.guardarAgente(newAgente);
-                
-                view.dispose();
-                listView.addAgent(id + "|" + nombre);
-                
-                JOptionPane.showMessageDialog(view, "Agente Creado!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                if(saldo <= 0){
+                    JOptionPane.showMessageDialog(view, "Saldo Invalido!", "Error de Saldo", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    Agente newAgente = new Agente(id, nombre, saldo);
+                    DataSaveUtilies.guardarAgente(newAgente);
+
+                    view.dispose();
+                    listView.addAgent(newAgente.getID() + "|" + newAgente.getNome() + "|" + newAgente.getSaldo());
+
+                    JOptionPane.showMessageDialog(view, "Agente Creado!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         };
         return al;

@@ -18,10 +18,18 @@ import java.util.ArrayList;
  */
 public class DataSaveUtilies {
     private static Gson gson = new Gson();
-    private static File[] saveFiles = new File("saveAgs/").listFiles();
+    private static String folderName = "saveAgs/";
+
+    public DataSaveUtilies() {
+        File saveFolder = new File(folderName);
+        if(!saveFolder.exists()){
+            saveFolder.mkdirs();
+        }
+    }
+    
     
     public static void guardarAgente(Agente ag){
-        try (FileWriter fw = new FileWriter("saveAgs/ag_" + ag.getID() + ".json")){
+        try (FileWriter fw = new FileWriter(folderName + "ag_" + ag.getID() + ".json")){
             gson.toJson(ag, fw);
         } catch (IOException ex) {
             System.getLogger(PspHilosBroker.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
@@ -30,18 +38,23 @@ public class DataSaveUtilies {
     
     public static void eliminarAgente(int id){
         String nameFile = "ag_" + id + ".json";
+        File[] saveFiles = new File(folderName).listFiles();
+        
         for(File file : saveFiles){
             if(file.getName().equals(nameFile)){
-                file.delete();
+                if(!file.delete()){
+                    System.out.println("No se elimino el agente correctamente");
+                }
             }
         }
     }
     
     public static Agente cargarAgente(int id){
+        File[] saveFiles = new File(folderName).listFiles();
         for(File saveFile : saveFiles){
             try (FileReader fr = new FileReader(saveFile)) {
                 Agente saveAg = gson.fromJson(fr, Agente.class);
-                if(saveAg.getID() != id){
+                if(saveAg.getID() == id){
                     return saveAg;
                 }
             } catch (IOException ex) {
@@ -52,6 +65,7 @@ public class DataSaveUtilies {
     }
     
     public static ArrayList<Agente> cargarAgentes(){
+        File[] saveFiles = new File(folderName).listFiles();
         ArrayList<Agente> listaAgente = new ArrayList<>();
         for(File saveFile : saveFiles){
             try (FileReader fr = new FileReader(saveFile)) {

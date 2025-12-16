@@ -5,6 +5,7 @@
 package view;
 
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -112,6 +113,17 @@ public class CreateAgenteDialog extends javax.swing.JDialog {
     
     public String getTextSaldoAgenteTextField(){
         return this.saldoAgenteTextField.getText();
+    }
+    
+    public double getDoubleSaldoAgenteTextField(){
+        double saldo = 0;
+        try {
+            saldo = Double.parseDouble(this.getTextSaldoAgenteTextField());
+        } catch(NumberFormatException ex){
+            System.err.println(ex.getMessage());
+        }
+        
+        return saldo;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

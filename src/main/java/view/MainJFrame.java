@@ -139,7 +139,7 @@ public class MainJFrame extends javax.swing.JFrame {
     public void loadSaveAgents(){
         this.delAllList();
         for(Agente agente : DataSaveUtilies.cargarAgentes()){
-            String dataAgente = agente.getID() + "|" + agente.getNome();
+            String dataAgente = agente.getID() + "|" + agente.getNome() + "|" + agente.getSaldo();
             this.addAgent(dataAgente);
         }
     }
