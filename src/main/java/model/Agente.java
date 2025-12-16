@@ -4,6 +4,8 @@
  */
 package model;
 
+import controller.EstadoMercado;
+
 /**
  *
  * @author dam2_alu13@inf.ald
@@ -23,11 +25,12 @@ public class Agente {
     
     
     
-    public boolean nuevaOperacionCompra(String tipo, double limite, double cantidad){
+    public boolean nuevaOperacionCompra(String tipo, double limite, double cantidad, EstadoMercado broker){
         switch (tipo) {
             case "compra":
                 if(operacionCompra == null){
                     operacionCompra = new Operacion(tipo, limite, cantidad, this);
+                    broker.anhadirOperacion(operacionCompra);
                 } else {
                     System.out.println("Ya existe una operacion de compra para el agente " + getNome());
                     return false;
@@ -36,6 +39,7 @@ public class Agente {
             case "venta":
                 if(operacionVenta == null){
                     operacionVenta = new Operacion(tipo, limite, cantidad, this);
+                    broker.anhadirOperacion(operacionVenta);
                 } else {
                     System.out.println("Ya existe una operacion de venta para el agente " + getNome());
                     return false;

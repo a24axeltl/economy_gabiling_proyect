@@ -10,11 +10,10 @@ import model.Agente;
  *
  * @author dam2_alu13@inf.ald
  */
-public class Operacion implements Runnable{
+public class Operacion {
     private String tipo;
     private double limite;
     private double cantidad;
-    private transient Thread hiloEjecutor;
     private transient Agente refAgente;
 
     public Operacion(String tipo, double limite, double cantidad, Agente refAgente) {
@@ -22,19 +21,6 @@ public class Operacion implements Runnable{
         this.limite = limite;
         this.cantidad = cantidad;
         this.refAgente = refAgente;
-        
-        hiloEjecutor = new Thread(this);
-        hiloEjecutor.start();
-    }
-    
-    @Override
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet.");
-        // BUCLE:
-            // Comprobar el precio del broker
-            // SI   PEDIR EL LOCK SUMAR O RESTAR LIBERAR LOCK
-            // NO   DUERMO
-            
     }
 
     /**
