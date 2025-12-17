@@ -5,7 +5,7 @@
 package controller;
 
 import model.Agente;
-import com.mycompany.psphilosbroker.DataSaveUtilies;
+import com.mycompany.psphilosbroker.DataSaveAgenteUtilies;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -42,7 +42,7 @@ public class CreateAgenteController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int id = 0;
-                for(Agente ag : DataSaveUtilies.cargarAgentes()){
+                for(Agente ag : DataSaveAgenteUtilies.cargarAgentes()){
                     if(ag.getID() >= id){
                         id = ag.getID() + 1;
                     }
@@ -54,7 +54,7 @@ public class CreateAgenteController {
                     JOptionPane.showMessageDialog(view, "Saldo Invalido!", "Error de Saldo", JOptionPane.ERROR_MESSAGE);
                 } else {
                     Agente newAgente = new Agente(id, nombre, saldo);
-                    DataSaveUtilies.guardarAgente(newAgente);
+                    DataSaveAgenteUtilies.guardarAgente(newAgente);
 
                     view.dispose();
                     listView.addAgent(newAgente.getID() + "|" + newAgente.getNome() + "|" + newAgente.getSaldo());

@@ -4,11 +4,12 @@
  */
 package controller;
 
-import com.mycompany.psphilosbroker.DataSaveUtilies;
+import com.mycompany.psphilosbroker.DataSaveAgenteUtilies;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import view.CreateAgenteDialog;
+import view.CreateOperacionDialog;
 import view.MainJFrame;
 
 /**
@@ -20,12 +21,13 @@ public class FrontController {
 
     public FrontController(MainJFrame view) {
         this.view = view;
-        this.view.setCreateAgentActionListener(this.getCreateAgentButtonActionListener());
-        this.view.setDeleteAgentActionListener(this.getDeleteAgentButtonActionListener());
-        this.view.loadSaveAgents();
+        this.view.setCreateAgenteActionListener(this.getCreateAgenteButtonActionListener());
+        this.view.setDeleteAgenteActionListener(this.getDeleteAgenteButtonActionListener());
+        this.view.setCreateOperacionActionListener(this.getCreateOperacionButtonActionListener());
+        this.view.setDeleteOperacionActionListener(this.getDeleteOperacionButtonActionListener());
     }
     
-    private ActionListener getCreateAgentButtonActionListener(){
+    private ActionListener getCreateAgenteButtonActionListener(){
         ActionListener al = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -37,23 +39,45 @@ public class FrontController {
         return al;
     }
     
-    private ActionListener getDeleteAgentButtonActionListener(){
+    private ActionListener getDeleteAgenteButtonActionListener(){
         ActionListener al = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                int selectIndex = view.getIndexItemList();
+                int selectIndex = view.getIndexAgenteItemList();
                 if(selectIndex == -1){
                     JOptionPane.showMessageDialog(view, "Seleccione un agente para proceder", "Aviso de Eliminar", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    String itemList = view.getItemList(selectIndex);
+                    String itemList = view.getItemAgenteList(selectIndex);
                     String[] dataAgent = itemList.split("\\|");
                     int id = Integer.parseInt(dataAgent[0]);
 
-                    DataSaveUtilies.eliminarAgente(id);
-                    view.delItemList(view.getIndexItemList());
+                    DataSaveAgenteUtilies.eliminarAgente(id);
+                    view.delItemAgenteList(view.getIndexAgenteItemList());
 
                     JOptionPane.showMessageDialog(view, "Agente Eliminado!", "Info", JOptionPane.INFORMATION_MESSAGE);
                 }
+            }
+        };
+        return al;
+    }
+    
+    private ActionListener getCreateOperacionButtonActionListener(){
+        ActionListener al = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                CreateOperacionDialog coD = new CreateOperacionDialog(view, true);
+                CreateOperacionController coC = new CreateOperacionController(coD,view);
+                coD.setVisible(true);
+            }
+        };
+        return al;
+    }
+    
+    private ActionListener getDeleteOperacionButtonActionListener(){
+        ActionListener al = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                
             }
         };
         return al;

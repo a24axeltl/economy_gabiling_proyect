@@ -5,9 +5,11 @@
 package view;
 
 import model.Agente;
-import com.mycompany.psphilosbroker.DataSaveUtilies;
+import com.mycompany.psphilosbroker.DataSaveAgenteUtilies;
+import com.mycompany.psphilosbroker.DataSaveOperacionUtilies;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
+import model.Operacion;
 
 /**
  *
@@ -15,13 +17,17 @@ import javax.swing.DefaultListModel;
  */
 public class MainJFrame extends javax.swing.JFrame {
     DefaultListModel<String> agentList = new DefaultListModel<>();
+    DefaultListModel<String> operationList = new DefaultListModel<>();
     
     /**
      * Creates new form MainJFrame
      */
     public MainJFrame() {
         initComponents();
+        loadSaveAgents();
+        loadSaveOperations();
         agentsJList.setModel(agentList);
+        operationsJList.setModel(operationList);
     }
 
     /**
@@ -37,11 +43,16 @@ public class MainJFrame extends javax.swing.JFrame {
         bolsaPanel = new javax.swing.JPanel();
         gestorAgentePanel = new javax.swing.JPanel();
         createAgentButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        agenteLabel = new javax.swing.JLabel();
         deleteAgentButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         agentsJList = new javax.swing.JList<>();
         gestorOperacionPanel = new javax.swing.JPanel();
+        operacionLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        operationsJList = new javax.swing.JList<>();
+        createOperacionButton = new javax.swing.JButton();
+        deleteOperacionButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,7 +60,7 @@ public class MainJFrame extends javax.swing.JFrame {
         bolsaPanel.setLayout(bolsaPanelLayout);
         bolsaPanelLayout.setHorizontalGroup(
             bolsaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 474, Short.MAX_VALUE)
+            .addGap(0, 344, Short.MAX_VALUE)
         );
         bolsaPanelLayout.setVerticalGroup(
             bolsaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -60,8 +71,8 @@ public class MainJFrame extends javax.swing.JFrame {
 
         createAgentButton.setText("Crear");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel1.setText("Agentes:");
+        agenteLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        agenteLabel.setText("Agentes:");
 
         deleteAgentButton.setText("Eliminar");
 
@@ -74,14 +85,15 @@ public class MainJFrame extends javax.swing.JFrame {
             .addGroup(gestorAgentePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(gestorAgentePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
                     .addGroup(gestorAgentePanelLayout.createSequentialGroup()
-                        .addGap(0, 311, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(deleteAgentButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(createAgentButton))
                     .addGroup(gestorAgentePanelLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGroup(gestorAgentePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(agenteLabel)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -89,7 +101,7 @@ public class MainJFrame extends javax.swing.JFrame {
             gestorAgentePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gestorAgentePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(agenteLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
@@ -101,15 +113,47 @@ public class MainJFrame extends javax.swing.JFrame {
 
         panelsTabbed.addTab("Agentes", gestorAgentePanel);
 
+        operacionLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        operacionLabel.setText("Operaciones:");
+
+        jScrollPane1.setViewportView(operationsJList);
+
+        createOperacionButton.setText("Crear");
+
+        deleteOperacionButton.setText("Eliminar");
+
         javax.swing.GroupLayout gestorOperacionPanelLayout = new javax.swing.GroupLayout(gestorOperacionPanel);
         gestorOperacionPanel.setLayout(gestorOperacionPanelLayout);
         gestorOperacionPanelLayout.setHorizontalGroup(
             gestorOperacionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 474, Short.MAX_VALUE)
+            .addGroup(gestorOperacionPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(gestorOperacionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(gestorOperacionPanelLayout.createSequentialGroup()
+                        .addComponent(operacionLabel)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gestorOperacionPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(deleteOperacionButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(createOperacionButton)))
+                .addContainerGap())
         );
         gestorOperacionPanelLayout.setVerticalGroup(
             gestorOperacionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 295, Short.MAX_VALUE)
+            .addGroup(gestorOperacionPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(operacionLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 66, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gestorOperacionPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(gestorOperacionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(createOperacionButton)
+                    .addComponent(deleteOperacionButton))
+                .addContainerGap())
         );
 
         panelsTabbed.addTab("Operaciones", gestorOperacionPanel);
@@ -118,7 +162,7 @@ public class MainJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelsTabbed, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(panelsTabbed, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,52 +171,93 @@ public class MainJFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    public void setCreateAgentActionListener(ActionListener al){
-        this.createAgentButton.addActionListener(al);
-    }
-    
-    public void setDeleteAgentActionListener(ActionListener al){
-        this.deleteAgentButton.addActionListener(al);
-    }
     
     public void loadSaveAgents(){
-        this.delAllList();
-        for(Agente agente : DataSaveUtilies.cargarAgentes()){
-            String dataAgente = agente.getID() + "|" + agente.getNome() + "|" + agente.getSaldo();
-            this.addAgent(dataAgente);
+        this.delAllAgenteList();
+        for(Agente agente : DataSaveAgenteUtilies.cargarAgentes()){
+            String itemAgente = agente.getID() + "|" + agente.getNome() + "|" + agente.getSaldo();
+            this.addAgent(itemAgente);
         }
     }
     
-    public int getIndexItemList(){
+    public void loadSaveOperations(){
+        this.delAllOperacionList();
+        for(Operacion operacion : DataSaveOperacionUtilies.cargarOperaciones()){
+            String itemOperacion = operacion.getIdRefAgente() + "|" + operacion.getTipo() + "|" + operacion.getLimite() + "|" + operacion.getCantidad();
+            this.addOperacion(itemOperacion);
+        }
+    }
+    
+    public void setCreateAgenteActionListener(ActionListener al){
+        this.createAgentButton.addActionListener(al);
+    }
+    
+    public void setDeleteAgenteActionListener(ActionListener al){
+        this.deleteAgentButton.addActionListener(al);
+    }
+    
+    public void setCreateOperacionActionListener(ActionListener al){
+        this.createOperacionButton.addActionListener(al);
+    }
+    
+    public void setDeleteOperacionActionListener(ActionListener al){
+        this.deleteOperacionButton.addActionListener(al);
+    }
+    
+    public int getIndexAgenteItemList(){
         return this.agentsJList.getSelectedIndex();
     }
     
-    public String getItemList(int index){
+    public int getIndexOperacionItemList(){
+        return this.operationsJList.getSelectedIndex();
+    }
+    
+    public String getItemAgenteList(int index){
         return this.agentList.getElementAt(index);
     }
     
-    public void delAllList(){
+    public void delAllAgenteList(){
         this.agentList.removeAllElements();
     }
     
-    public void delItemList(int index){
+    public void delItemAgenteList(int index){
         this.agentList.remove(index);
     }
     
-    public void addAgent(String dataAgene){
-        agentList.addElement(dataAgene);
+    public void addAgent(String dataAgente){
+        agentList.addElement(dataAgente);
+    }
+    
+    public String getItemOperacionList(int index){
+        return this.operationList.getElementAt(index);
+    }
+    
+    public void delAllOperacionList(){
+        this.operationList.removeAllElements();
+    }
+    
+    public void delItemOperacionList(int index){
+        this.operationList.remove(index);
+    }
+    
+    public void addOperacion(String dataOperacion){
+        operationList.addElement(dataOperacion);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel agenteLabel;
     private javax.swing.JList<String> agentsJList;
     private javax.swing.JPanel bolsaPanel;
     private javax.swing.JButton createAgentButton;
+    private javax.swing.JButton createOperacionButton;
     private javax.swing.JButton deleteAgentButton;
+    private javax.swing.JButton deleteOperacionButton;
     private javax.swing.JPanel gestorAgentePanel;
     private javax.swing.JPanel gestorOperacionPanel;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel operacionLabel;
+    private javax.swing.JList<String> operationsJList;
     private javax.swing.JTabbedPane panelsTabbed;
     // End of variables declaration//GEN-END:variables
 

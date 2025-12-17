@@ -4,8 +4,6 @@
  */
 package model;
 
-import model.Agente;
-
 /**
  *
  * @author dam2_alu13@inf.ald
@@ -13,10 +11,10 @@ import model.Agente;
 public class Operacion {
     private String tipo;
     private double limite;
-    private double cantidad;
-    private transient Agente refAgente;
+    private int cantidad;
+    private Agente refAgente;
 
-    public Operacion(String tipo, double limite, double cantidad, Agente refAgente) {
+    public Operacion(String tipo, double limite, int cantidad, Agente refAgente) {
         setTipo(tipo);
         this.limite = limite;
         this.cantidad = cantidad;
@@ -56,14 +54,14 @@ public class Operacion {
     /**
      * @return the cantidad
      */
-    public double getCantidad() {
+    public int getCantidad() {
         return cantidad;
     }
 
     /**
      * @param cantidad the cantidad to set
      */
-    public void setCantidad(double cantidad) {
+    public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
     
@@ -79,6 +77,10 @@ public class Operacion {
      */
     public void setRefAgente(Agente refAgente) {
         this.refAgente = refAgente;
+    }
+    
+    public int getIdRefAgente(){
+        return this.refAgente.getID();
     }
 
     @Override

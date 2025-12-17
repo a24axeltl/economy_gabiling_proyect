@@ -25,7 +25,7 @@ public class Agente {
     
     
     
-    public boolean nuevaOperacion(String tipo, double limite, double cantidad, EstadoMercado broker){
+    public boolean nuevaOperacion(String tipo, double limite, int cantidad, EstadoMercado broker){
         if(saldo < limite * cantidad){
             return false;
         } else {
