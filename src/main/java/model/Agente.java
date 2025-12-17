@@ -5,6 +5,7 @@
 package model;
 
 import controller.EstadoMercado;
+import javax.swing.JDialog;
 
 /**
  *
@@ -14,8 +15,8 @@ public class Agente {
     private int ID;
     private String nome;
     private double saldo;
-    private Operacion operacionCompra;
-    private Operacion operacionVenta;
+    private transient Operacion operacionCompra;
+    private transient Operacion operacionVenta;
 
     public Agente(int ID, String nome, double saldo) {
         this.ID = ID;
@@ -25,26 +26,34 @@ public class Agente {
     
     
     
-    public boolean nuevaOperacion(String tipo, double limite, int cantidad, EstadoMercado broker){
-        if(saldo < limite * cantidad){
+    public boolean nuevaOperacion(Operacion newOperacion, EstadoMercado broker){
+        if(saldo < newOperacion.getLimite() * newOperacion.getCantidad()){
             return false;
         } else {
-            switch (tipo) {
+            System.out.println("Operacion Compra: " + operacionCompra);
+            System.out.println("Operacion Venta: " + operacionVenta);
+            switch (newOperacion.getTipo()) {
                 case "compra":
-                    if (operacionCompra == null) {
-                        operacionCompra = new Operacion(tipo, limite, cantidad, this);
+                    if (!operacionCompraExist()) {
+                        operacionCompra = newOperacion;
                         broker.anhadirOperacion(operacionCompra);
+                        
+                        System.out.println("Operacion Compra: " + operacionCompra);
                     } else {
                         System.out.println("Ya existe una operacion de compra para el agente " + getNome());
+                        System.out.println("Operacion Compra: " + operacionCompra);
                         return false;
                     }
                     break;
                 case "venta":
-                    if (operacionVenta == null) {
-                        operacionVenta = new Operacion(tipo, limite, cantidad, this);
+                    if (!operacionVentaExist()) {
+                        operacionVenta = newOperacion;
                         broker.anhadirOperacion(operacionVenta);
+                        
+                        System.out.println("Operacion Venta: " + operacionVenta);
                     } else {
                         System.out.println("Ya existe una operacion de venta para el agente " + getNome());
+                        System.out.println("Operacion Venta: " + operacionVenta);
                         return false;
                     }
                     break;
@@ -124,6 +133,14 @@ public class Agente {
      */
     public void setOperacionVenta(Operacion operacionVenta) {
         this.operacionVenta = operacionVenta;
+    }
+    
+    public boolean operacionCompraExist(){
+        return operacionCompra != null;
+    }
+    
+    public boolean operacionVentaExist(){
+        return operacionVenta != null;
     }
 
     @Override

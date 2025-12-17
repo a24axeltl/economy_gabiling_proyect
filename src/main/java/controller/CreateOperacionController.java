@@ -20,10 +20,12 @@ import view.MainJFrame;
 public class CreateOperacionController {
     private CreateOperacionDialog view;
     private MainJFrame listView;
+    private EstadoMercado broker;
 
-    public CreateOperacionController(CreateOperacionDialog view, MainJFrame listView) {
+    public CreateOperacionController(CreateOperacionDialog view, MainJFrame listView, EstadoMercado broker) {
         this.view = view;
         this.listView = listView;
+        this.broker = broker;
         this.view.setCreateButtonActionListener(this.getCreateButtonActionListener());
         this.view.setCancelButtonActionListener(this.getCancelButtonActionListener());
     }
@@ -36,17 +38,23 @@ public class CreateOperacionController {
                 String tipoOperacion = view.getSelectTypeOperacionComboBox();
                 int cantidad = view.getCantidadSpinner();
                 double precioLimite = view.getDoubleLimiteAgenteTextField();
-                if(precioLimite <= 0){
+                if (precioLimite <= 0) {
                     JOptionPane.showMessageDialog(view, "Precio Invalido!", "Error de Precio", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    Operacion newOperacion = new Operacion(tipoOperacion, precioLimite, cantidad, refAgente);
-                    DataSaveOperacionUtilies.guardarOperacion(newOperacion);
-                    
-                    view.dispose();
-                    listView.addOperacion(newOperacion.getIdRefAgente() + "|" + newOperacion.getTipo() + "|" + newOperacion.getLimite() + "|" + newOperacion.getCantidad());
+                    Operacion newOperacion = new Operacion(tipoOperacion, precioLimite, cantidad, refAgente, refAgente.getID());
+                    if(!refAgente.nuevaOperacion(newOperacion, broker)){
+                        JOptionPane.showMessageDialog(view, "Ya existe una operacion de este tipo para este Agente", "Aviso!", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        System.out.println("Estado refAgente Op:");
+                        DataSaveOperacionUtilies.guardarOperacion(newOperacion, tipoOperacion);
 
-                    JOptionPane.showMessageDialog(view, "Operacion Creada!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                        view.dispose();
+                        listView.addOperacion(newOperacion.getRefAgenteID() + "|" + newOperacion.getTipo() + "|" + newOperacion.getLimite() + "|" + newOperacion.getCantidad());
+
+                        JOptionPane.showMessageDialog(view, "Operacion Creada!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
+
             }
         };
         return al;

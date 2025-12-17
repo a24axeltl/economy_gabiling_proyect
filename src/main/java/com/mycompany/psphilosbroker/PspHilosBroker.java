@@ -4,6 +4,7 @@
 
 package com.mycompany.psphilosbroker;
 
+import controller.EstadoMercado;
 import controller.FrontController;
 import view.MainJFrame;
 
@@ -32,9 +33,10 @@ public class PspHilosBroker {
         // CREAR OPERACIONES
         
         /////////////////////////////////////////////////////////////////////////////
+        EstadoMercado broker = new EstadoMercado(0);
         
         MainJFrame frame = new MainJFrame();
-        FrontController fc = new FrontController(frame);
+        FrontController fc = new FrontController(frame,broker);
         frame.setVisible(true);
     }
 }

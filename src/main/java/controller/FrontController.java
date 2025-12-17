@@ -5,6 +5,7 @@
 package controller;
 
 import com.mycompany.psphilosbroker.DataSaveAgenteUtilies;
+import com.mycompany.psphilosbroker.DataSaveOperacionUtilies;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -18,9 +19,11 @@ import view.MainJFrame;
  */
 public class FrontController {
     private MainJFrame view;
+    private EstadoMercado broker;
 
-    public FrontController(MainJFrame view) {
+    public FrontController(MainJFrame view, EstadoMercado broker) {
         this.view = view;
+        this.broker = broker;
         this.view.setCreateAgenteActionListener(this.getCreateAgenteButtonActionListener());
         this.view.setDeleteAgenteActionListener(this.getDeleteAgenteButtonActionListener());
         this.view.setCreateOperacionActionListener(this.getCreateOperacionButtonActionListener());
@@ -48,8 +51,8 @@ public class FrontController {
                     JOptionPane.showMessageDialog(view, "Seleccione un agente para proceder", "Aviso de Eliminar", JOptionPane.WARNING_MESSAGE);
                 } else {
                     String itemList = view.getItemAgenteList(selectIndex);
-                    String[] dataAgent = itemList.split("\\|");
-                    int id = Integer.parseInt(dataAgent[0]);
+                    String[] dataAgente = itemList.split("\\|");
+                    int id = Integer.parseInt(dataAgente[0]);
 
                     DataSaveAgenteUtilies.eliminarAgente(id);
                     view.delItemAgenteList(view.getIndexAgenteItemList());
@@ -66,7 +69,7 @@ public class FrontController {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 CreateOperacionDialog coD = new CreateOperacionDialog(view, true);
-                CreateOperacionController coC = new CreateOperacionController(coD,view);
+                CreateOperacionController coC = new CreateOperacionController(coD,view,broker);
                 coD.setVisible(true);
             }
         };
@@ -77,7 +80,19 @@ public class FrontController {
         ActionListener al = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                
+                int selectIndex = view.getIndexOperacionItemList();
+                if(selectIndex == -1){
+                    JOptionPane.showMessageDialog(view, "Seleccione una operacion para proceder", "Aviso de Eliminar", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    String itemList = view.getItemOperacionList(selectIndex);
+                    String[] dataOperacion = itemList.split("\\|");
+                    int id = Integer.parseInt(dataOperacion[0]);
+
+                    DataSaveOperacionUtilies.eliminarOperacion(id, dataOperacion[1]);
+                    view.delItemOperacionList(view.getIndexOperacionItemList());
+
+                    JOptionPane.showMessageDialog(view, "Operacion Eliminada!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         };
         return al;

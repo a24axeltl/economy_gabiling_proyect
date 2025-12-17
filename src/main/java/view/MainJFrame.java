@@ -183,7 +183,7 @@ public class MainJFrame extends javax.swing.JFrame {
     public void loadSaveOperations(){
         this.delAllOperacionList();
         for(Operacion operacion : DataSaveOperacionUtilies.cargarOperaciones()){
-            String itemOperacion = operacion.getIdRefAgente() + "|" + operacion.getTipo() + "|" + operacion.getLimite() + "|" + operacion.getCantidad();
+            String itemOperacion = operacion.getRefAgenteID() + "|" + operacion.getTipo() + "|" + operacion.getLimite() + "|" + operacion.getCantidad();
             this.addOperacion(itemOperacion);
         }
     }

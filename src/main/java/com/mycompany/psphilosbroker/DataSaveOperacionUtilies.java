@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import model.Agente;
 import model.Operacion;
 
 /**
@@ -18,21 +19,25 @@ import model.Operacion;
  */
 public class DataSaveOperacionUtilies {
     private static Gson gson = new Gson();
-    private static String folderName = "saveOps/";
+    private static String FOLDER_NAME = "saveOps/";
+    private static String FILE_FORMAT = ".json";
     
-    public static void guardarOperacion(Operacion op){
+    public static void guardarOperacion(Operacion op, String tipoOperacion){
         checkExistingFolder();
-        try (FileWriter fw = new FileWriter(folderName + "op_" + op.getIdRefAgente() + ".json")){
+        String saveName = checkTypeOperacion(tipoOperacion);
+        
+        try (FileWriter fw = new FileWriter(FOLDER_NAME + saveName + op.getRefAgenteID() + FILE_FORMAT)){
             gson.toJson(op, fw);
         } catch (IOException ex) {
             System.getLogger(PspHilosBroker.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
     }
     
-    public static void eliminarOperacion(int id){
+    public static void eliminarOperacion(int id, String tipoOperacion){
         checkExistingFolder();
-        String nameFile = "op_" + id + ".json";
-        File[] saveFiles = new File(folderName).listFiles();
+        String saveName = checkTypeOperacion(tipoOperacion);
+        String nameFile = saveName + id + FILE_FORMAT;
+        File[] saveFiles = new File(FOLDER_NAME).listFiles();
         
         for(File file : saveFiles){
             if(file.getName().equals(nameFile)){
@@ -45,11 +50,11 @@ public class DataSaveOperacionUtilies {
     
     public static Operacion cargarOperacion(int id){
         checkExistingFolder();
-        File[] saveFiles = new File(folderName).listFiles();
+        File[] saveFiles = new File(FOLDER_NAME).listFiles();
         for(File saveFile : saveFiles){
             try (FileReader fr = new FileReader(saveFile)) {
                 Operacion saveOp = gson.fromJson(fr, Operacion.class);
-                if(saveOp.getIdRefAgente() == id){
+                if(saveOp.getRefAgenteID() == id){
                     return saveOp;
                 }
             } catch (IOException ex) {
@@ -61,11 +66,13 @@ public class DataSaveOperacionUtilies {
     
     public static ArrayList<Operacion> cargarOperaciones(){
         checkExistingFolder();
-        File[] saveFiles = new File(folderName).listFiles();
+        File[] saveFiles = new File(FOLDER_NAME).listFiles();
         ArrayList<Operacion> listaOperacion = new ArrayList<>();
         for(File saveFile : saveFiles){
             try (FileReader fr = new FileReader(saveFile)) {
                 Operacion saveOp = gson.fromJson(fr, Operacion.class);
+                Agente ag = DataSaveAgenteUtilies.cargarAgente(saveOp.getRefAgenteID());
+                saveOp.setRefAgente(ag);//Volver a cargar el refAgente tras la conversion JSON-Java
                 listaOperacion.add(saveOp);
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
@@ -75,9 +82,17 @@ public class DataSaveOperacionUtilies {
     }
     
     private static void checkExistingFolder(){
-        File saveFolder = new File(folderName);
+        File saveFolder = new File(FOLDER_NAME);
         if(!saveFolder.exists()){
             saveFolder.mkdirs();
+        }
+    }
+    
+    private static String checkTypeOperacion(String tipoOperacion){
+        if(tipoOperacion.equals("compra")){
+            return "opCompra_";
+        } else {
+            return "opVenta_";
         }
     }
 }

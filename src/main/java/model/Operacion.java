@@ -12,13 +12,15 @@ public class Operacion {
     private String tipo;
     private double limite;
     private int cantidad;
-    private Agente refAgente;
+    private transient Agente refAgente;
+    private int refAgenteID;
 
-    public Operacion(String tipo, double limite, int cantidad, Agente refAgente) {
+    public Operacion(String tipo, double limite, int cantidad, Agente refAgente, int refAgenteID) {
         setTipo(tipo);
         this.limite = limite;
         this.cantidad = cantidad;
         this.refAgente = refAgente;
+        this.refAgenteID = refAgenteID;
     }
 
     /**
@@ -79,12 +81,22 @@ public class Operacion {
         this.refAgente = refAgente;
     }
     
-    public int getIdRefAgente(){
-        return this.refAgente.getID();
+    /**
+     * @return the refAgenteID
+     */
+    public int getRefAgenteID() {
+        return refAgenteID;
+    }
+
+    /**
+     * @param refAgenteID the refAgenteID to set
+     */
+    public void setRefAgenteID(int refAgenteID) {
+        this.refAgenteID = refAgenteID;
     }
 
     @Override
     public String toString() {
-        return "Operacion{" + "tipo=" + tipo + ", limite=" + limite + ", cantidad=" + cantidad + ", refAgente=" + refAgente + '}';
+        return "Operacion{" + "tipo=" + tipo + ", limite=" + limite + ", cantidad=" + cantidad + ", refAgente=" + refAgenteID + '}';
     }
 }
