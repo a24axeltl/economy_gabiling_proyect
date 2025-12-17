@@ -7,9 +7,12 @@ package view;
 import model.Agente;
 import com.mycompany.psphilosbroker.DataSaveAgenteUtilies;
 import com.mycompany.psphilosbroker.DataSaveOperacionUtilies;
+import controller.GraficaBolsa;
+import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
 import model.Operacion;
+import org.jfree.chart.ChartPanel;
 
 /**
  *
@@ -18,6 +21,7 @@ import model.Operacion;
 public class MainJFrame extends javax.swing.JFrame {
     DefaultListModel<String> agentList = new DefaultListModel<>();
     DefaultListModel<String> operationList = new DefaultListModel<>();
+    private GraficaBolsa graficoBolsa;
     
     /**
      * Creates new form MainJFrame
@@ -26,6 +30,8 @@ public class MainJFrame extends javax.swing.JFrame {
         initComponents();
         loadSaveAgents();
         loadSaveOperations();
+        loadGrafico();
+        
         agentsJList.setModel(agentList);
         operationsJList.setModel(operationList);
     }
@@ -172,7 +178,7 @@ public class MainJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    public void loadSaveAgents(){
+    private void loadSaveAgents(){
         this.delAllAgenteList();
         for(Agente agente : DataSaveAgenteUtilies.cargarAgentes()){
             String itemAgente = agente.getID() + "|" + agente.getNome() + "|" + agente.getSaldo();
@@ -180,12 +186,22 @@ public class MainJFrame extends javax.swing.JFrame {
         }
     }
     
-    public void loadSaveOperations(){
+    private void loadSaveOperations(){
         this.delAllOperacionList();
         for(Operacion operacion : DataSaveOperacionUtilies.cargarOperaciones()){
             String itemOperacion = operacion.getRefAgenteID() + "|" + operacion.getTipo() + "|" + operacion.getLimite() + "|" + operacion.getCantidad();
             this.addOperacion(itemOperacion);
         }
+    }
+    
+    private void loadGrafico(){
+        graficoBolsa = new GraficaBolsa();
+        ChartPanel chartPanel = graficoBolsa.getGraficoChart(); //Obtener Grafico en ChartPanel.
+        bolsaPanel.setLayout(new BorderLayout());
+        bolsaPanel.add(chartPanel, BorderLayout.CENTER);
+        
+        Thread hiloGrafica = new Thread(graficoBolsa);
+        hiloGrafica.start();
     }
     
     public void setCreateAgenteActionListener(ActionListener al){

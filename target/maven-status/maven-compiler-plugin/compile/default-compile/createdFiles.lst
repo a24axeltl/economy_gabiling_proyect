@@ -11,6 +11,7 @@ controller\CreateOperacionController$1.class
 model\Operacion.class
 com\mycompany\psphilosbroker\DataSaveOperacionUtilies.class
 view\CreateAgenteDialog.class
+controller\GraficaBolsa.class
 controller\FrontController$4.class
 controller\CreateOperacionController$2.class
 controller\CreateAgenteController.class
