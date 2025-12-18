@@ -26,7 +26,7 @@ public class Agente {
     
     
     
-    public boolean nuevaOperacion(Operacion newOperacion, EstadoMercado broker){
+    public synchronized boolean nuevaOperacion(Operacion newOperacion, EstadoMercado broker){
         if(saldo < newOperacion.getLimite() * newOperacion.getCantidad()){
             return false;
         } else {

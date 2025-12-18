@@ -176,7 +176,7 @@ public class MainJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    private void loadSaveAgents(){
+    public void loadSaveAgents(){
         this.delAllAgenteList();
         for(Agente agente : DataSaveAgenteUtilies.cargarAgentes()){
             String itemAgente = agente.getID() + "|" + agente.getNome() + "|" + agente.getSaldo();

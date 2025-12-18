@@ -82,7 +82,7 @@ public class FrontController {
         ActionListener al = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                CreateOperacionDialog coD = new CreateOperacionDialog(view, true);
+                CreateOperacionDialog coD = new CreateOperacionDialog(view, true, broker.getAgentes());
                 CreateOperacionController coC = new CreateOperacionController(coD,view,broker);
                 coD.setVisible(true);
             }

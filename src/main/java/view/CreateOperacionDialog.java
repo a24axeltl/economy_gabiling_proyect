@@ -4,8 +4,8 @@
  */
 package view;
 
-import com.mycompany.psphilosbroker.DataSaveAgenteUtilies;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 import model.Agente;
 
 /**
@@ -19,10 +19,10 @@ public class CreateOperacionDialog extends javax.swing.JDialog {
     /**
      * Creates new form CreateOperacionDialog
      */
-    public CreateOperacionDialog(java.awt.Frame parent, boolean modal) {
+    public CreateOperacionDialog(java.awt.Frame parent, boolean modal, Collection<Agente> agentes) {
         super(parent, modal);
         initComponents();
-        insertSaveAgentsInComboBox();
+        insertSaveAgentsInComboBox(agentes);
     }
 
     /**
@@ -175,12 +175,11 @@ public class CreateOperacionDialog extends javax.swing.JDialog {
         return (Integer) this.cantidadSpinner.getValue();
     }
     
-    private void insertSaveAgentsInComboBox(){
-        for(Agente agente : DataSaveAgenteUtilies.cargarAgentes()){
+    private void insertSaveAgentsInComboBox(Collection<Agente> agentes){
+        for(Agente agente : agentes){
             this.agenteComboBox.addItem(agente);
         }
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<Agente> agenteComboBox;
     private javax.swing.JLabel agenteLabel;

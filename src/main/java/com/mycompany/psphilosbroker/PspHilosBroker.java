@@ -7,6 +7,9 @@ package com.mycompany.psphilosbroker;
 import controller.EstadoMercado;
 import controller.FrontController;
 import controller.TareaBolsa;
+import javax.swing.SwingUtilities;
+import model.Agente;
+import model.Operacion;
 import view.MainJFrame;
 
 /**
@@ -16,30 +19,39 @@ import view.MainJFrame;
 public class PspHilosBroker {
 
     public static void main(String[] args) {
-        // PERSISTENCIA DE USUARIOS/AGENTES Y OPERACIONES
-        
-        // RECUPERAR EL PRECIO Y LOS VALORES ANTERIORES.
-            
-        // PINTAR PRECIO/TIEMPO (Posible uso de una GUI)
-            
-        //CREAR AGENTES CON OPERACIONES DE ENTRADA Y SALIDA
-        //LECTURA PRECIO Y COMPRAN VENDEN -- 2 Tipos de Hilo
-            
-        // LOGICA DE COMPRAVENTA EN BROKER -- HILO (COMPRA VARIOS DE UN PRODUCTO, SUBIR PRECIO(OFERTA Y DEMANDA) | TENER MAXIMO DE COMPRA PRODUCTOS)
-            
-        //AGENTES CON UN CAPITAL QUE PUEDAN LANZAR OPERACIONES DE COMPRAVENTA
-            
-        // NUEVOS AGENTES
-            
-        // CREAR OPERACIONES
-        
-        /////////////////////////////////////////////////////////////////////////////
         EstadoMercado broker = new EstadoMercado(1000);
+        
+        cargarAgentes(broker);
+        cargarOperaciones(broker);
+        
         Thread tareaBolsa = new Thread(new TareaBolsa(broker));
         tareaBolsa.start();
         
         MainJFrame frame = new MainJFrame();
         FrontController fc = new FrontController(frame,broker);
         frame.setVisible(true);
+        SwingUtilities.invokeLater(() -> frame.loadSaveAgents());
+    }
+    
+    private static void cargarAgentes(EstadoMercado broker){
+        for(Agente ag : DataSaveAgenteUtilies.cargarAgentes()){
+            broker.anhadirAgente(ag);
+        }
+    }
+    
+    private static void cargarOperaciones(EstadoMercado broker){
+        for(Operacion op : DataSaveOperacionUtilies.cargarOperaciones()){
+            broker.anhadirOperacion(op);
+
+            //Reconstruir la referencia del agente
+            Agente ag = broker.getAgente(op.getRefAgenteID());
+            if (ag != null) {
+                if (op.getTipo().equals("compra")) {
+                    ag.setOperacionCompra(op);
+                } else {
+                    ag.setOperacionVenta(op);
+                }
+            }
+        }
     }
 }
