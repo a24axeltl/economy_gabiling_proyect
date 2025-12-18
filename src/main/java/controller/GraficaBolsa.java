@@ -17,11 +17,12 @@ import org.jfree.data.time.TimeSeriesCollection;
  * @author W10-Portable
  */
 public class GraficaBolsa implements Runnable {
-
     private TimeSeries timeSeries; //Almacenaje del precio con su marca de tiempo para la representación gráfica.
-
-    public GraficaBolsa() {
-        this.timeSeries = new TimeSeries("Precio de la Operacion");
+    private EstadoMercado broker;
+    
+    public GraficaBolsa(EstadoMercado broker) {
+        this.timeSeries = new TimeSeries("Precio Bolsa");
+        this.broker = broker;
     }
 
     public ChartPanel getGraficoChart() { //Metodo para obtener el modelo grafico (ChartPanel). Se usara en el MainJFrame
@@ -39,8 +40,8 @@ public class GraficaBolsa implements Runnable {
 
     @Override
     public void run() {
-        double precioActual = 1000; //Precio inicial
         while (true) {
+            double precioActual = broker.getPrecioActual(); //Precio del broker
             SwingUtilities.invokeLater(() -> addPrecio(precioActual)); //Actualizacion del hilo.
             try {
                 Thread.sleep(300); //Frecuencia de actualizacion

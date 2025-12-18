@@ -8,11 +8,10 @@ import model.Agente;
 import com.mycompany.psphilosbroker.DataSaveAgenteUtilies;
 import com.mycompany.psphilosbroker.DataSaveOperacionUtilies;
 import controller.GraficaBolsa;
-import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
+import javax.swing.JPanel;
 import model.Operacion;
-import org.jfree.chart.ChartPanel;
 
 /**
  *
@@ -30,7 +29,6 @@ public class MainJFrame extends javax.swing.JFrame {
         initComponents();
         loadSaveAgents();
         loadSaveOperations();
-        loadGrafico();
         
         agentsJList.setModel(agentList);
         operationsJList.setModel(operationList);
@@ -194,14 +192,12 @@ public class MainJFrame extends javax.swing.JFrame {
         }
     }
     
-    private void loadGrafico(){
-        graficoBolsa = new GraficaBolsa();
-        ChartPanel chartPanel = graficoBolsa.getGraficoChart(); //Obtener Grafico en ChartPanel.
-        bolsaPanel.setLayout(new BorderLayout());
-        bolsaPanel.add(chartPanel, BorderLayout.CENTER);
-        
-        Thread hiloGrafica = new Thread(graficoBolsa);
-        hiloGrafica.start();
+    public GraficaBolsa setGrafiaBolsa(GraficaBolsa graficoBolsa){
+        return this.graficoBolsa = graficoBolsa;
+    }
+    
+    public JPanel getBolsaPanel(){
+        return this.bolsaPanel;
     }
     
     public void setCreateAgenteActionListener(ActionListener al){

@@ -6,9 +6,11 @@ package controller;
 
 import com.mycompany.psphilosbroker.DataSaveAgenteUtilies;
 import com.mycompany.psphilosbroker.DataSaveOperacionUtilies;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+import org.jfree.chart.ChartPanel;
 import view.CreateAgenteDialog;
 import view.CreateOperacionDialog;
 import view.MainJFrame;
@@ -28,6 +30,18 @@ public class FrontController {
         this.view.setDeleteAgenteActionListener(this.getDeleteAgenteButtonActionListener());
         this.view.setCreateOperacionActionListener(this.getCreateOperacionButtonActionListener());
         this.view.setDeleteOperacionActionListener(this.getDeleteOperacionButtonActionListener());
+        loadGrafico();
+    }
+    
+    private void loadGrafico(){
+        GraficaBolsa graficoBolsa = new GraficaBolsa(broker);
+        ChartPanel chartPanel = graficoBolsa.getGraficoChart(); //Obtener Grafico en ChartPanel.
+        view.getBolsaPanel().setLayout(new BorderLayout());
+        view.getBolsaPanel().add(chartPanel, BorderLayout.CENTER);
+        view.setGrafiaBolsa(graficoBolsa);
+        
+        Thread hiloGrafica = new Thread(graficoBolsa);
+        hiloGrafica.start();
     }
     
     private ActionListener getCreateAgenteButtonActionListener(){

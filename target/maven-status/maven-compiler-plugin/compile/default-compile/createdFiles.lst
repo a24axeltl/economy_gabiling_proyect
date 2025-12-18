@@ -5,6 +5,7 @@ controller\FrontController$2.class
 model\Agente.class
 controller\FrontController$1.class
 controller\CreateAgenteController$1.class
+controller\TareaBolsa.class
 view\CreateOperacionDialog.class
 com\mycompany\psphilosbroker\PspHilosBroker.class
 controller\CreateOperacionController$1.class
@@ -19,4 +20,3 @@ controller\FrontController.class
 controller\CreateAgenteController$2.class
 controller\EstadoMercado.class
 controller\FrontController$3.class
-controller\MotorCasacion.class

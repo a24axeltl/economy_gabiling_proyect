@@ -22,19 +22,43 @@ public class EstadoMercado {
         this.precioActual = precioActual;
     }
     
-    public void anhadirOperacion(Operacion op){ //syncronization pendiente al ser monitor
+    public synchronized void anhadirOperacion(Operacion op){ //syncronization a la hora de añadir las operaciones a las listas
         switch (op.getTipo()) {
             case "compra":
                 operacionesCompra.add(op);
-                operacionesCompra.sort(Comparator.comparing(Operacion::getLimite).reversed());
+                operacionesCompra.sort(Comparator.comparing(Operacion::getLimite).reversed()); //Ordenamos la lista de Compra de forma descendente
                 break;
             case "venta":
                 operacionesVenta.add(op);
-                operacionesVenta.sort(Comparator.comparing(Operacion::getLimite));
+                operacionesVenta.sort(Comparator.comparing(Operacion::getLimite)); //Ordenamos la lista de Venta de forma ascendente
                 break;
             default:
                 System.err.println("Tipo invalido o no identificado");
                 break;
         }
+    }
+    
+    public synchronized double getPrecioActual(){
+        return this.precioActual;
+    }
+    
+    public synchronized void setPrecioActual(double precio){
+        this.precioActual = precio;
+    }
+    
+    public synchronized Operacion getOperacionCompraBarata(){
+        return operacionesCompra.get(0);
+    }
+    
+    public synchronized Operacion getOperacionVentaCara(){
+        return operacionesVenta.get(0);
+    }
+    
+    public synchronized void eliminarOperacionCompra(Operacion op){
+        operacionesCompra.remove(op);
+    }
+    
+    public synchronized void eliminarOperacionVenta(Operacion op){
+        operacionesVenta.remove(op);
     }
 }
